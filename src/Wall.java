@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
+
 public class Wall implements Structure {
     private List<Block> blocks;
     private CompositeBlock compositeBlock;
@@ -15,13 +17,9 @@ public class Wall implements Structure {
 
     @Override
     public List<Block> findBlocksByMaterial(String material) {
-        List<Block> result = new ArrayList<>();
-        for (Block block : compositeBlock.getBlocks()) {
-            if (block.getMaterial().equals(material)) {
-                result.add(block);
-            }
-        }
-        return result;
+        return compositeBlock.getBlocks().stream()
+                .filter(block -> block.getMaterial().equals(material))
+                .collect(toList());
     }
 
     @Override
